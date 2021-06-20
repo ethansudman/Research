@@ -43,12 +43,19 @@ behavior['colony'] = behavior['colony'].replace(29, 4)
 behavior['colony'] = behavior['colony'].replace(58, 5)
 behavior['colony'] = behavior['colony'].replace(78, 6)
 
-toWriteTo = pd.DataFrame(columns = ['Colony', 'Day', 'Ant', 'Hubness', 'Authority', 'HA Ratio', 'Classification'])
+toWriteTo = pd.DataFrame(columns = ['Colony', 'Day', 'Ant', 'Hubness', 'Authority', 'HA Ratio', 'Betweeenness', 'PageRank', 'Classification'])
+
+i = 0
 
 for adjlist in glob.glob(base + "*.txt"):
     matches = re.match(r'^network_col([0-9]+)_day([0-9]+).txt$', os.path.basename(adjlist))
 
     if matches is not None:
+        if i == 82:
+            break
+        else:
+            i = i + 1
+
         m = matches.groups()
 
         colony = int(m[0])
@@ -56,6 +63,10 @@ for adjlist in glob.glob(base + "*.txt"):
 
         G = getGraph(adjlist)
         hubness, authority = nx.hits(G)
+
+        pagerank = nx.pagerank(G)
+
+        betweenness = nx.betweenness_centrality(G)
 
         for ant in hubness.keys():
             # A tag ID of, for example, 5, would be called "Ant5" in the other file
@@ -75,6 +86,6 @@ for adjlist in glob.glob(base + "*.txt"):
                 else:
                     role = row['group_period1']
 
-                toWriteTo = toWriteTo.append({ 'Colony': colony, 'Day': day, 'Ant': ant, 'Hubness': hubness[ant], 'Authority': authority[ant], 'HA Ratio': hubness[ant] / authority[ant], 'Classification': role}, ignore_index = True)
+                toWriteTo = toWriteTo.append({ 'Colony': colony, 'Day': day, 'PageRank': pagerank[ant], 'Betweenness': betweenness[ant], 'Ant': ant, 'Hubness': hubness[ant], 'Authority': authority[ant], 'HA Ratio': hubness[ant] / authority[ant], 'Classification': role}, ignore_index = True)
 
 toWriteTo.to_csv(base + 'AntsClassified.csv')

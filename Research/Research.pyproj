@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>a17922aa-9f32-49fe-b5f6-9ddb13a9446b</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Adjacency.py</StartupFile>
+    <StartupFile>DescriptiveStats.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -31,6 +31,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="centrality_comps.py" />
+    <Compile Include="DescriptiveStats.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="GrabFiles.py">
       <SubType>Code</SubType>
     </Compile>
