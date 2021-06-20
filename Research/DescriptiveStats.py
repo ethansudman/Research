@@ -98,7 +98,7 @@ for file in glob.glob("*.graphml"):
     data['Average Degree'] = sum(dict(G.degree()).values()) / nx.number_of_nodes(G)
     data['Connected Components'] = sum(1 for component in nx.connected_components(G))
     data['Girvan-Newman Method Communities'] = sum(1 for community in nx.algorithms.community.girvan_newman(G))
-    data['Small-World Coefficient (Sigma)'] = sigma(G)
+    #data['Small-World Coefficient (Sigma)'] = sigma(G)
     #data['Small-World Coefficient (Omega)'] = nx.algorithms.smallworld.omega(G)
     
     df = df.append(data, ignore_index = True)
