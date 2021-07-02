@@ -9,7 +9,8 @@ import networkx as nx
 import pandas as pd
 import glob
 import re
-from multiprocessing import Process
+from multiprocessing import Pool
+#import multiprocessing as mp # import Process, Pool
 
     #data['Small-World Coefficient (Sigma)'] = sigma(G)
     #data['Small-World Coefficient (Omega)'] = nx.algorithms.smallworld.omega(G)
@@ -25,12 +26,12 @@ from multiprocessing import Process
 #df.to_csv('Graph Descriptive Statistics.csv')
 
 def doCalculations(file):
-    m = re.match('^ant_mersch_col([0-9]+)_day([0-9]+)_attribute.graphml$', file).groups()
+    m = re.match('^ant_mersch_col([0-9]+)_day([0-9]+)_attribute.edges$', file).groups()
     
     with open('Colony ' + m[0] + ' Day ' + m[1] + ' Log.txt', 'w') as f:  
         data = {'Colony': m[0], 'Day': m[1]}
     
-        G = nx.read_graphml(file)
+        G = nx.read_edgelist(file)
         
         f.write('Opened graph\n')
         data['Degree Assortativity Coefficient'] = nx.degree_assortativity_coefficient(G)
@@ -44,7 +45,7 @@ def doCalculations(file):
         data['Connected Components'] = sum(1 for component in nx.connected_components(G))
         
         f.write('About to start community processing\n')
-        data['Girvan-Newman Method Communities'] = sum(1 for community in nx.algorithms.community.girvan_newman(G))
+        #data['Girvan-Newman Method Communities'] = sum(1 for community in nx.algorithms.community.girvan_newman(G))
         #df = pd.DataFrame(data, columns = ['Colony', 'Day', 'Degree Assortativity Coefficient', 'Average Clustering', 'Nodes', 'Edges', 'Density', 'Diameter', 'Betweenness Centrality', 'Connected Components', 'Girvan-Newman Method Communities', 'Local Efficiency', 'Global Efficiency', 'Small-World Coefficient (Sigma)', 'Small-World Coefficient (Omega)'])
         
         f.write('About to start data frame\n')
@@ -54,13 +55,22 @@ def doCalculations(file):
         f.write('Did to_csv')
     
 if __name__ == '__main__':
-    processes = []
+    with Pool() as pool:
+        pool.map(doCalculations, glob.glob("*.edges"))
+    #p.close()
+    #pool.join()
+    #processes = []
     
-    for file in glob.glob("*.graphml"):
-        p = Process(target = doCalculations, args = (file,))
-        p.start()
+    #for file in glob.glob("*.edges"):
+    #    p = Process(target = doCalculations, args = (file,))
+    #    p.start()
         
-        processes.append(p)
+   #     processes.append(p)
         
-    for p in processes:
-        p.join()
+    #    if len(processes) == 5:
+     #       for p in processes:
+      #          p.join()
+       #     processes = []
+        
+    #for p in processes:
+     #   p.join()

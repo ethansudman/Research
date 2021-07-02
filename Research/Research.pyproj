@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>a17922aa-9f32-49fe-b5f6-9ddb13a9446b</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>DescriptiveStats.py</StartupFile>
+    <StartupFile>More Drawings.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -37,9 +37,13 @@
     <Compile Include="GrabFiles.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="More Drawings.py" />
     <Compile Include="predict_role_scitkit.py" />
     <Compile Include="random_graph_link_analysis.py" />
     <Compile Include="ReplicatePaperResults.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ToPandas.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="wormproc.py" />

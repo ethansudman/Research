@@ -1,4 +1,4 @@
-
+ r
 """
 Spyder Editor
 

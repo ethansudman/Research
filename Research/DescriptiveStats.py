@@ -80,7 +80,7 @@ def sigma(G, niter=100, nrand=10, seed=None):
 
     return sigma
 
-df = pd.DataFrame(columns = ['Colony', 'Day', 'Degree Assortativity Coefficient', 'Average Clustering', 'Nodes', 'Edges', 'Density', 'Diameter', 'Betweenness Centrality', 'Connected Components', 'Girvan-Newman Method Communities', 'Local Efficiency', 'Global Efficiency', 'Small-World Coefficient (Sigma)', 'Small-World Coefficient (Omega)'])
+df = pd.DataFrame(columns = ['Colony', 'Day', 'Degree Assortativity Coefficient', 'Average Clustering', 'Nodes', 'Edges', 'Density', 'Diameter', 'Betweenness Centrality', 'Connected Components', 'Local Efficiency', 'Global Efficiency'])
 
 for file in glob.glob("*.graphml"):
     m = re.match('^ant_mersch_col([0-9]+)_day([0-9]+)_attribute.graphml$', file).groups()
@@ -97,7 +97,9 @@ for file in glob.glob("*.graphml"):
     data['Betweenness Centrality'] = sum(nx.betweenness_centrality(G).values()) / nx.number_of_nodes(G)
     data['Average Degree'] = sum(dict(G.degree()).values()) / nx.number_of_nodes(G)
     data['Connected Components'] = sum(1 for component in nx.connected_components(G))
-    data['Girvan-Newman Method Communities'] = sum(1 for community in nx.algorithms.community.girvan_newman(G))
+    data['Local Efficiency'] = nx.algorithms.local_efficiency(G)
+    data['Global Efficiency'] = nx.algorithms.global_efficiency(G)
+    #data['Girvan-Newman Method Communities'] = sum(1 for community in nx.algorithms.community.girvan_newman(G))
     #data['Small-World Coefficient (Sigma)'] = sigma(G)
     #data['Small-World Coefficient (Omega)'] = nx.algorithms.smallworld.omega(G)
     
